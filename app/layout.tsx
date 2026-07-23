@@ -1,7 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+// Absolute base for resolving social preview images (og:image / twitter:image).
+// Set NEXT_PUBLIC_SITE_URL to your production domain so link previews resolve;
+// falls back to the Vercel deployment URL, then localhost for local dev.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "The Fuel Club — Never Touch a Gas Pump Again",
   description:
     "The Fuel Club is a members-only concierge fueling club. $99 a month removes the worst two minutes of the American driving day — fuel delivered to your car while it sits where you parked it.",

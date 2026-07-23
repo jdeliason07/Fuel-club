@@ -22,10 +22,9 @@ export default function Hero() {
               letterSpacing: "0.005em",
             }}
           >
-            Never touch
-            <br />a gas pump
+            Welcome to
             <br />
-            again.
+            the fuel club.
           </h1>
 
           <hr className="dbl my-7 max-w-[240px]" aria-hidden="true" />

@@ -30,7 +30,7 @@ export default function Navbar() {
       >
         <nav className="mx-auto flex max-w-[1060px] items-center justify-between px-5 py-3.5 sm:px-8">
           <a href="#top" aria-label="The Fuel Club home">
-            <Wordmark />
+            <Wordmark showRoundel={false} />
           </a>
 
           <div className="hidden items-center gap-8 md:flex">

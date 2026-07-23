@@ -3,17 +3,22 @@ import Roundel from "./Roundel";
 /**
  * Horizontal lockup for tight spaces (nav bar, footer):
  * compact roundel + Jost wordmark with the script "The" accent.
+ * Pass `showRoundel={false}` for a type-only lockup.
  */
 export default function Wordmark({
   onDark = false,
+  showRoundel = true,
   className = "",
 }: {
   onDark?: boolean;
+  showRoundel?: boolean;
   className?: string;
 }) {
   return (
     <span className={`inline-flex items-center gap-3 ${className}`}>
-      <Roundel size={40} variant={onDark ? "night" : "compact"} />
+      {showRoundel && (
+        <Roundel size={40} variant={onDark ? "night" : "compact"} />
+      )}
       <span className="flex flex-col leading-none">
         <span
           className="script -mb-0.5"

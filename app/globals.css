@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0c0c0c;
+  color: #f8f9fa;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Reusable component classes ---------- */
+@layer components {
+  /* Glassmorphism surfaces */
+  .glass {
+    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+
+  .glass-strong {
+    @apply border border-white/15 bg-white/[0.07] backdrop-blur-2xl;
+  }
+
+  .glass-white {
+    @apply border border-black/5 bg-white/90 backdrop-blur-xl;
+  }
+
+  /* Neon text treatments */
+  .text-neon-red {
+    color: #ff3355;
+    text-shadow: 0 0 8px rgba(255, 0, 51, 0.75), 0 0 24px rgba(255, 0, 51, 0.45);
+  }
+
+  .text-neon-blue {
+    color: #3388ff;
+    text-shadow: 0 0 8px rgba(0, 102, 255, 0.75), 0 0 24px rgba(0, 102, 255, 0.45);
+  }
+
+  /* Primary CTA button */
+  .btn-neon {
+    @apply relative inline-flex items-center justify-center rounded-full px-8 py-4 text-sm font-bold uppercase tracking-widest text-white transition-all duration-300;
+    background: linear-gradient(135deg, #ff0033 0%, #ff2d55 100%);
+    box-shadow: 0 0 0 rgba(255, 0, 51, 0);
+  }
+
+  .btn-neon:hover {
+    box-shadow: 0 0 12px #ff0033, 0 0 36px rgba(255, 0, 51, 0.6);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    @apply relative inline-flex items-center justify-center rounded-full border border-neon-blue/60 px-8 py-4 text-sm font-bold uppercase tracking-widest text-white transition-all duration-300;
+  }
+
+  .btn-outline:hover {
+    box-shadow: 0 0 12px #0066ff, 0 0 36px rgba(0, 102, 255, 0.5);
+    background: rgba(0, 102, 255, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .section-label {
+    @apply mb-3 inline-block text-xs font-bold uppercase tracking-[0.35em] text-white/50;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Reveal-on-scroll base state */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom form input styling */
+input::placeholder {
+  color: rgba(248, 249, 250, 0.4);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#ff0033, #0066ff);
+  border-radius: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

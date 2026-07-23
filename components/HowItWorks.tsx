@@ -3,42 +3,41 @@ import Reveal from "./Reveal";
 import StationVisual from "./StationVisual";
 
 /**
- * "How the Diagonal 2-Window Bay Works" — 3 interactive step cards
- * plus the architectural station schematic.
+ * How the diagonal 2-window bay works — 3 step cards + the station blueprint.
  */
 export default function HowItWorks() {
   return (
-    <section id="how" className="relative px-5 py-24 sm:px-8">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-asphalt-800/40 to-transparent" />
-      <div className="mx-auto max-w-6xl">
-        <Reveal className="text-center">
-          <span className="section-label">The Experience</span>
-          <h2 className="text-balance text-3xl font-black tracking-tight text-white sm:text-5xl">
-            How the Diagonal{" "}
-            <span className="text-neon-red">2-Window</span> Bay Works
+    <section id="how" className="bg-white px-5 py-16 sm:px-8 sm:py-24">
+      <div className="mx-auto max-w-[1060px]">
+        <Reveal>
+          <div className="eyebrow mb-3">08 — The Experience</div>
+          <h2
+            className="font-display font-extrabold uppercase text-asphalt"
+            style={{ fontSize: "clamp(25px,4.6vw,42px)", letterSpacing: "0.03em" }}
+          >
+            Eight bays. Two windows.
+            <br />
+            You never step out.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-balance text-white/65">
-            Eight private, weather-proof 45° stalls extend straight off the
-            central hub. Pull in once — get fed, fueled, and washed without
-            unbuckling.
+          <p className="mt-3 max-w-[58ch] text-steel">
+            The bays run at 45° straight off the central hub. Pull in once. Get
+            fed, fueled, and washed. Then pull out.
           </p>
         </Reveal>
 
-        {/* Step cards */}
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-3.5 md:grid-cols-3">
           {STEPS.map((step, i) => (
-            <Reveal key={step.id} delay={i * 120} as="article">
+            <Reveal key={step.id} delay={i * 100} as="article">
               <StepCard step={step} />
             </Reveal>
           ))}
         </div>
 
-        {/* Architectural schematic */}
-        <Reveal delay={120} className="mt-16">
+        <Reveal delay={100} className="mt-14">
           <div id="station" className="scroll-mt-28">
-            <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-white/45">
-              Station Blueprint · 8 Stalls · 4 Per Side
-            </p>
+            <div className="mono mb-5 text-center">
+              Site Blueprint · 8 Stalls · 4 Per Side
+            </div>
             <StationVisual />
           </div>
         </Reveal>
@@ -49,49 +48,36 @@ export default function HowItWorks() {
 
 function StepCard({ step }: { step: Step }) {
   const isRed = step.accent === "red";
+  const accent = isRed ? "var(--club-red)" : "var(--enamel-blue)";
   return (
-    <div
-      className={`group relative h-full overflow-hidden rounded-2xl border bg-white/[0.04] p-7 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 ${
-        isRed
-          ? "border-neon-red/25 hover:border-neon-red/60 hover:shadow-neon-red"
-          : "border-neon-blue/25 hover:border-neon-blue/60 hover:shadow-neon-blue"
-      }`}
-    >
-      {/* corner glow */}
-      <div
-        className={`pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full blur-2xl transition-opacity duration-300 ${
-          isRed ? "bg-neon-red/25" : "bg-neon-blue/25"
-        } opacity-60 group-hover:opacity-100`}
-      />
-
-      <div className="relative">
-        <div className="mb-5 flex items-center justify-between">
-          <span
-            className={`flex h-11 w-11 items-center justify-center rounded-xl text-lg font-black ${
-              isRed
-                ? "bg-neon-red/15 text-neon-red"
-                : "bg-neon-blue/15 text-neon-blue"
-            }`}
-          >
-            {step.id}
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-            {step.eyebrow}
-          </span>
-        </div>
-
-        <h3 className="text-xl font-extrabold text-white">{step.title}</h3>
-        <p className="mt-2.5 text-sm leading-relaxed text-white/65">
-          {step.description}
-        </p>
+    <div className="card card-bone h-full p-6">
+      <div className="mb-5 flex items-center justify-between">
+        <span
+          className="flex h-10 w-10 items-center justify-center rounded-full font-mono text-sm font-bold tabular-nums"
+          style={{
+            color: accent,
+            background: isRed ? "rgba(224,50,42,0.08)" : "rgba(11,77,162,0.08)",
+          }}
+        >
+          {step.id}
+        </span>
+        <span
+          className="font-display text-[11px] font-semibold uppercase tracking-[0.24em]"
+          style={{ color: accent }}
+        >
+          {step.eyebrow}
+        </span>
       </div>
 
-      {/* bottom accent line */}
-      <div
-        className={`absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100 ${
-          isRed ? "bg-neon-red shadow-neon-red" : "bg-neon-blue shadow-neon-blue"
-        }`}
-      />
+      <h3
+        className="font-display text-lg font-bold uppercase tracking-[0.03em] text-asphalt"
+        style={{ textTransform: "none" }}
+      >
+        {step.title}
+      </h3>
+      <p className="mt-2 text-[13.5px] leading-relaxed text-steel">
+        {step.description}
+      </p>
     </div>
   );
 }

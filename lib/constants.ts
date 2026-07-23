@@ -1,81 +1,84 @@
-// Shared brand + content constants for FUEL CLUB
+// Shared brand + content constants — The Fuel Club, Brand Standards v3.0.
+// Voice: short sentences, verifiable claims. Members, not customers.
+// Figures shown are formatting examples, not verified claims.
 
 export const BRAND = {
-  name: "FUEL CLUB",
-  tagline: "Never Touch a Gas Pump Again.",
+  name: "The Fuel Club",
+  headline: "Never touch a gas pump again.",
 } as const;
 
 export const WAITLIST = {
   claimed: 412,
   total: 600,
-  locationLabel: "Location #1",
+  locationLabel: "Site 01",
 } as const;
 
-export const PRICING = {
+// Value equation — canonical form (guide §06).
+// Membership − Value delivered = Your net. Blue for what you pay,
+// red for what you gain. Two decimals for fuel, none for membership.
+export const VALUE = {
   membership: 99,
-  storeCredit: 99,
+  delivered: 127,
+  net: 28,
 } as const;
+
+export type ValueLine = {
+  label: string;
+  detail: string;
+  amount: number;
+};
+
+// Itemized beneath the equation. Every figure sourced and dated in production.
+export const VALUE_LINES: ValueLine[] = [
+  {
+    label: "C-store credit",
+    detail: "Coffee, snacks, energy drinks — spent every month anyway",
+    amount: 99,
+  },
+  {
+    label: "Unlimited touchless wash",
+    detail: "Retail value, included with membership",
+    amount: 18,
+  },
+  {
+    label: "Full-service fuel delivery",
+    detail: "Attendant handles the cap and nozzle; member fuel rate",
+    amount: 10,
+  },
+];
 
 export type Step = {
-  id: number;
+  id: string;
   eyebrow: string;
   title: string;
   description: string;
-  accent: "red" | "blue";
+  accent: "blue" | "red";
 };
 
 export const STEPS: Step[] = [
   {
-    id: 1,
-    eyebrow: "Step 01",
-    title: "Drive-In",
+    id: "01",
+    eyebrow: "Drive In",
+    title: "Pull into a stall",
     description:
-      "Pull into one of 8 angled 45° enclosed stalls connected directly to the central micro-fulfillment hub. Thin hall-style walls shield you from weather — no stepping out, ever.",
+      "One of eight angled bays runs straight off the central hub. Thin hall walls hold the weather out. You stay in the car.",
     accent: "blue",
   },
   {
-    id: 2,
-    eyebrow: "Step 02",
-    title: "Front Window",
+    id: "02",
+    eyebrow: "Front Window",
+    title: "Your order, handed over",
     description:
-      "Your app pre-orders — iced coffee, energy drinks, snacks — are handed straight through the dedicated food & drink port to your driver window.",
+      "The food-and-drink port meets your driver window. Iced coffee, energy drinks, snacks — ordered in the app, waiting when you arrive.",
     accent: "red",
   },
   {
-    id: 3,
-    eyebrow: "Step 03",
-    title: "Back Window",
+    id: "03",
+    eyebrow: "Rear Window",
+    title: "The tank is filled",
     description:
-      "A trained attendant handles your fuel cap and nozzle at the dedicated rear fueling port while you relax. Pull out fueled, fed, and washed.",
+      "A trained attendant works the rear fueling port. Cap off, nozzle in, cap on. You pull out fueled, fed, and washed.",
     accent: "blue",
-  },
-];
-
-export type RoiRow = {
-  label: string;
-  detail: string;
-  amount: number; // signed dollars
-  kind: "charge" | "credit" | "bonus" | "total";
-};
-
-export const ROI_ROWS: RoiRow[] = [
-  {
-    label: "Membership Fee",
-    detail: "Full concierge access, billed monthly",
-    amount: 99,
-    kind: "charge",
-  },
-  {
-    label: "C-Store Credit",
-    detail: "Coffee, snacks & energy drinks — every month",
-    amount: -99,
-    kind: "credit",
-  },
-  {
-    label: "Unlimited Touchless Car Wash",
-    detail: "Included free with every membership",
-    amount: 0,
-    kind: "bonus",
   },
 ];
 

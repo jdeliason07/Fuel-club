@@ -9,7 +9,8 @@ type ProgressTrackerProps = {
 };
 
 /**
- * Live VIP membership progress bar with count-up + animated neon fill.
+ * Founding-member progress. Blue primary fill (blue outweighs red).
+ * Count and totals set in Space Mono, tabular (guide §06).
  */
 export default function ProgressTracker({
   claimed,
@@ -35,11 +36,10 @@ export default function ProgressTracker({
   useEffect(() => {
     if (!started) return;
     let raf = 0;
-    const duration = 1400;
+    const duration = 1200;
     const start = performance.now();
     const tick = (now: number) => {
       const p = Math.min(1, (now - start) / duration);
-      // easeOutCubic
       const eased = 1 - Math.pow(1 - p, 3);
       setDisplayed(Math.round(eased * claimed));
       if (p < 1) raf = requestAnimationFrame(tick);
@@ -51,37 +51,37 @@ export default function ProgressTracker({
   return (
     <div ref={ref} className="w-full">
       <div className="mb-2 flex items-end justify-between">
-        <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/60">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neon-red opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-neon-red" />
-          </span>
-          Live · {locationLabel}
+        <span className="mono flex items-center gap-2">
+          <span
+            className="inline-block h-1.5 w-1.5 rounded-full bg-club-red"
+            aria-hidden="true"
+          />
+          Founding members · {locationLabel}
         </span>
-        <span className="text-xs font-medium text-white/50">{pct}% full</span>
+        <span className="font-mono text-[11px] tabular-nums text-steel">
+          {pct}%
+        </span>
       </div>
 
-      <div className="relative h-3 w-full overflow-hidden rounded-full bg-white/10">
+      <div
+        className="relative h-2 w-full overflow-hidden rounded-full"
+        style={{ background: "#EAF3FC" }}
+      >
         <div
-          className="h-full rounded-full transition-[width] duration-1000 ease-out"
+          className="h-full rounded-full transition-[width] duration-1000 ease-digital"
           style={{
             width: started ? `${pct}%` : "0%",
-            background:
-              "linear-gradient(90deg, #FF0033 0%, #FF2D55 45%, #0066FF 100%)",
-            boxShadow:
-              "0 0 10px rgba(255,0,51,0.7), 0 0 22px rgba(0,102,255,0.5)",
+            background: "var(--enamel-blue)",
           }}
         />
       </div>
 
-      <p className="mt-3 text-sm text-white/80">
-        <span className="text-lg font-extrabold tabular-nums text-white">
-          {displayed}
-        </span>
-        <span className="mx-1 text-white/40">/</span>
-        <span className="font-semibold text-white/70">{total}</span>{" "}
-        <span className="font-medium text-white/60">
-          VIP Membership Spots Claimed
+      <p className="mt-3 font-mono text-[13px] tabular-nums text-asphalt">
+        <span className="text-base font-bold">{displayed}</span>
+        <span className="mx-1 text-chrome">/</span>
+        <span className="text-steel">{total}</span>{" "}
+        <span className="text-[11px] uppercase tracking-[0.14em] text-steel">
+          spots claimed
         </span>
       </p>
     </div>

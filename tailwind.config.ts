@@ -8,63 +8,67 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand structural palette
-        "retro-white": "#F8F9FA",
-        "pure-white": "#FFFFFF",
-        asphalt: "#121212",
-        "asphalt-800": "#1A1A1A",
-        "asphalt-700": "#242424",
-        // Neon accents
-        "neon-red": "#FF0033",
-        "neon-blue": "#0066FF",
+        // The Fuel Club — Brand Standards v3.0 palette
+        porcelain: "#FBFAF7", // bone ground
+        white: "#FFFFFF", // dominant surface — 75% of everything
+        "neon-blue": "#1BA3FF", // primary accent — tube color, glow, highlights
+        "enamel-blue": "#0B4DA2", // painted/printed blue — ring, small type, primary action
+        "club-red": "#E0322A", // secondary accent — rules, trim, crown line
+        "enamel-red": "#B4201A", // small red type on white
+        chrome: "#B9C0C7", // trim, banding, dividers — neutral, not an accent
+        steel: "#6C7681", // secondary text, captions
+        asphalt: "#1B2129", // body text, night backgrounds
+        stroke: "#E4E4DE", // hairlines, card borders
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        // Display + signage: geometric caps
+        display: ["Jost", "Futura PT", "Century Gothic", "sans-serif"],
+        // Body + UI
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        // Data, receipts, prices
+        mono: ["Space Mono", "ui-monospace", "Menlo", "monospace"],
+        // Script accent — one word only
+        script: ["Yellowtail", "cursive"],
+      },
+      fontWeight: {
+        body: "380",
+      },
+      borderRadius: {
+        // Bullnose everywhere — mid-century is round-cornered
+        card: "14px",
       },
       boxShadow: {
-        "neon-red": "0 0 5px #FF0033, 0 0 20px rgba(255,0,51,0.55)",
-        "neon-red-lg":
-          "0 0 8px #FF0033, 0 0 30px rgba(255,0,51,0.6), 0 0 60px rgba(255,0,51,0.35)",
-        "neon-blue": "0 0 5px #0066FF, 0 0 20px rgba(0,102,255,0.55)",
-        "neon-blue-lg":
-          "0 0 8px #0066FF, 0 0 30px rgba(0,102,255,0.6), 0 0 60px rgba(0,102,255,0.35)",
-        glass: "0 8px 32px rgba(0,0,0,0.37)",
+        card: "0 3px 16px rgba(27,33,41,0.08)",
+        roundel: "0 3px 16px rgba(27,33,41,0.13)",
+        "neon-night": "0 0 30px rgba(27,163,255,0.5)",
+        "rule-lit": "0 0 18px rgba(27,163,255,0.45)",
       },
-      backgroundImage: {
-        "grid-lines":
-          "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
+      spacing: {
+        // Strict 4 / 8 / 12 / 20 / 32 / 52 scale (guide §10)
+        "1.5x": "12px",
+        "5x": "20px",
+        "8x": "32px",
+        "13x": "52px",
+      },
+      transitionTimingFunction: {
+        // Digital motion — 180ms ease-out
+        digital: "cubic-bezier(0, 0, 0.2, 1)",
       },
       keyframes: {
-        "neon-pulse": {
+        // Neon breathes only — 6s ease, 100% -> 76%, both colors in phase.
+        // No chase, no strobe, no sequencing.
+        breathe: {
           "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.72" },
-        },
-        "neon-flicker": {
-          "0%, 19%, 21%, 23%, 25%, 54%, 56%, 100%": { opacity: "1" },
-          "20%, 24%, 55%": { opacity: "0.4" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-8px)" },
+          "50%": { opacity: "0.76" },
         },
         "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(24px)" },
+          "0%": { opacity: "0", transform: "translateY(16px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        "progress-fill": {
-          "0%": { width: "0%" },
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
         },
       },
       animation: {
-        "neon-pulse": "neon-pulse 2.6s ease-in-out infinite",
-        "neon-flicker": "neon-flicker 4s linear infinite",
-        float: "float 6s ease-in-out infinite",
-        "fade-up": "fade-up 0.7s ease-out both",
-        shimmer: "shimmer 3s linear infinite",
+        breathe: "breathe 6s ease-in-out infinite",
+        "fade-up": "fade-up 0.6s cubic-bezier(0,0,0.2,1) both",
       },
     },
   },

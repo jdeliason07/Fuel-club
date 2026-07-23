@@ -1,55 +1,55 @@
 import { WAITLIST } from "@/lib/constants";
 import ProgressTracker from "./ProgressTracker";
 import WaitlistForm from "./WaitlistForm";
+import Roundel from "./Roundel";
 
 export default function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-5 pb-20 pt-32 sm:px-8 sm:pt-40"
+      className="bg-white px-5 pb-16 pt-28 sm:px-8 sm:pt-32"
     >
-      {/* Background: asphalt + retro glow canopies */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-asphalt via-[#0d0d0f] to-asphalt" />
-        <div className="absolute left-1/4 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-neon-red/[0.12] blur-[120px]" />
-        <div className="absolute right-1/4 top-20 h-[500px] w-[500px] translate-x-1/2 rounded-full bg-neon-blue/[0.12] blur-[120px]" />
-        <div className="absolute inset-0 bg-grid-lines bg-[size:40px_40px] opacity-40 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
-      </div>
-
-      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-8">
+      <div className="mx-auto grid max-w-[1060px] items-center gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
         {/* Left: copy */}
-        <div className="animate-fade-up text-center lg:text-left">
-          <span className="glass mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/80">
-            <span className="h-1.5 w-1.5 rounded-full bg-neon-red shadow-neon-red" />
-            Members-Only Concierge Fueling
-          </span>
+        <div className="animate-fade-up">
+          <div className="mono mb-4">Members-only fueling · Est. 2026</div>
 
-          <h1 className="text-balance text-4xl font-black leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Never Touch a{" "}
-            <span className="relative whitespace-nowrap">
-              <span className="text-neon-red">Gas Pump</span>
-            </span>{" "}
-            Again.
+          <h1
+            className="font-display font-extrabold uppercase text-asphalt"
+            style={{
+              fontSize: "clamp(42px,10vw,96px)",
+              lineHeight: 0.94,
+              letterSpacing: "0.005em",
+            }}
+          >
+            Never touch
+            <br />a gas pump
+            <br />
+            again.
           </h1>
 
-          <p className="mx-auto mt-6 max-w-xl text-balance text-base leading-relaxed text-white/70 sm:text-lg lg:mx-0">
-            Pay{" "}
-            <span className="font-bold text-white">$99/month</span>. Get{" "}
-            <span className="font-bold text-neon-blue">$99/month</span> in
-            C-store credits. Enjoy complete 2-window concierge fueling without
-            ever leaving your car.
+          <hr className="dbl my-7 max-w-[240px]" aria-hidden="true" />
+
+          <p
+            className="max-w-[54ch] text-[#404A55]"
+            style={{ fontSize: "clamp(17px,2.2vw,20px)", fontWeight: 300 }}
+          >
+            A membership that removes the worst two minutes of the driving day.
+            Fuel delivered to your car while it sits where you parked it. Your
+            tank is full on Thursday because it is Thursday.
           </p>
 
-          {/* trust chips */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+          {/* trust chips — plain, no adjectives */}
+          <div className="mt-7 flex flex-wrap gap-2.5">
             {[
               "Full-service attendants",
-              "Free unlimited car wash",
-              "$0 net cost",
+              "Unlimited touchless wash",
+              "$99 / month",
             ].map((chip) => (
               <span
                 key={chip}
-                className="glass rounded-full px-3.5 py-1.5 text-xs font-medium text-white/75"
+                className="rounded-full border px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-steel"
+                style={{ borderColor: "var(--stroke)" }}
               >
                 {chip}
               </span>
@@ -60,27 +60,34 @@ export default function Hero() {
         {/* Right: waitlist card */}
         <div
           id="waitlist"
-          className="animate-fade-up scroll-mt-28 [animation-delay:120ms]"
+          className="animate-fade-up scroll-mt-28 [animation-delay:100ms]"
         >
-          <div className="glass-strong mx-auto max-w-md rounded-3xl p-6 shadow-glass sm:p-8">
-            <div className="mb-5">
-              <h2 className="text-xl font-extrabold text-white sm:text-2xl">
-                Reserve Your Founding Spot
-              </h2>
-              <p className="mt-1 text-sm text-white/60">
-                Join the waitlist for priority VIP access.
-              </p>
+          <div className="card shadow-card mx-auto max-w-md p-6 sm:p-7">
+            <div className="mb-5 flex items-center gap-4">
+              <Roundel size={64} variant="compact" />
+              <div>
+                <h2 className="font-display text-lg font-bold uppercase tracking-[0.04em] text-asphalt">
+                  Reserve Your Spot
+                </h2>
+                <p className="text-[13px] text-steel">
+                  Join the waitlist for priority access.
+                </p>
+              </div>
             </div>
 
             <WaitlistForm />
 
-            <div className="mt-6 border-t border-white/10 pt-5">
-              <ProgressTracker
-                claimed={WAITLIST.claimed}
-                total={WAITLIST.total}
-                locationLabel={WAITLIST.locationLabel}
-              />
-            </div>
+            <hr
+              className="my-5 border-0"
+              style={{ height: 1, background: "var(--stroke)" }}
+              aria-hidden="true"
+            />
+
+            <ProgressTracker
+              claimed={WAITLIST.claimed}
+              total={WAITLIST.total}
+              locationLabel={WAITLIST.locationLabel}
+            />
           </div>
         </div>
       </div>

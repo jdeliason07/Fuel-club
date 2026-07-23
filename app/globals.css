@@ -3,7 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --porcelain: #fbfaf7;
+  --white: #ffffff;
+  --neon-blue: #1ba3ff;
+  --enamel-blue: #0b4da2;
+  --club-red: #e0322a;
+  --enamel-red: #b4201a;
+  --chrome: #b9c0c7;
+  --steel: #6c7681;
+  --asphalt: #1b2129;
+  --stroke: #e4e4de;
 }
 
 html {
@@ -11,62 +20,130 @@ html {
 }
 
 body {
-  background-color: #0c0c0c;
-  color: #f8f9fa;
+  /* Bone ground lets porcelain-white surfaces read as lit objects */
+  background-color: var(--porcelain);
+  color: var(--asphalt);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-weight: 380;
+  line-height: 1.62;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* ---------- Reusable component classes ---------- */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: "Jost", sans-serif;
+    text-transform: uppercase;
+    margin: 0;
+  }
+}
+
 @layer components {
-  /* Glassmorphism surfaces */
-  .glass {
-    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  /* ── SIGNATURE: the double rule. Blue over red, always in that order. ── */
+  .dbl {
+    height: 9px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background:
+      linear-gradient(var(--neon-blue), var(--neon-blue)) 0 0 / 100% 4px
+        no-repeat,
+      linear-gradient(var(--club-red), var(--club-red)) 0 7px / 100% 2px
+        no-repeat;
+  }
+  .dbl-lit {
+    box-shadow: 0 0 18px rgba(27, 163, 255, 0.45);
   }
 
-  .glass-strong {
-    @apply border border-white/15 bg-white/[0.07] backdrop-blur-2xl;
+  /* Script accent — Yellowtail sets the word "The" and nothing else, ever. */
+  .script {
+    font-family: "Yellowtail", cursive;
+    text-transform: none;
+    font-weight: 400;
+    color: var(--club-red);
+    line-height: 1;
   }
 
-  .glass-white {
-    @apply border border-black/5 bg-white/90 backdrop-blur-xl;
+  /* Space Mono data / eyebrow-mono treatment */
+  .mono {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--steel);
   }
 
-  /* Neon text treatments */
-  .text-neon-red {
-    color: #ff3355;
-    text-shadow: 0 0 8px rgba(255, 0, 51, 0.75), 0 0 24px rgba(255, 0, 51, 0.45);
+  /* Eyebrow — Jost 600, wide tracking */
+  .eyebrow {
+    font-family: "Jost", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--enamel-blue);
   }
 
-  .text-neon-blue {
-    color: #3388ff;
-    text-shadow: 0 0 8px rgba(0, 102, 255, 0.75), 0 0 24px rgba(0, 102, 255, 0.45);
+  /* Primary action — one per screen. Enamel blue on white, pill, 52px. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full px-8 text-sm font-semibold uppercase tracking-[0.08em] text-white transition-colors duration-200 ease-digital;
+    height: 52px;
+    background-color: var(--enamel-blue);
+    font-family: "Jost", sans-serif;
+  }
+  .btn-primary:hover {
+    background-color: #0a4491;
+  }
+  .btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
   }
 
-  /* Primary CTA button */
-  .btn-neon {
-    @apply relative inline-flex items-center justify-center rounded-full px-8 py-4 text-sm font-bold uppercase tracking-widest text-white transition-all duration-300;
-    background: linear-gradient(135deg, #ff0033 0%, #ff2d55 100%);
-    box-shadow: 0 0 0 rgba(255, 0, 51, 0);
+  /* Secondary — outline pill */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border px-7 text-sm font-semibold uppercase tracking-[0.08em] transition-colors duration-200 ease-digital;
+    height: 52px;
+    border-color: var(--enamel-blue);
+    color: var(--enamel-blue);
+    font-family: "Jost", sans-serif;
+  }
+  .btn-secondary:hover {
+    background-color: rgba(11, 77, 162, 0.06);
   }
 
-  .btn-neon:hover {
-    box-shadow: 0 0 12px #ff0033, 0 0 36px rgba(255, 0, 51, 0.6);
-    transform: translateY(-2px);
+  /* Porcelain enamel card — white surface, hairline stroke, bullnose radius */
+  .card {
+    @apply rounded-card border bg-white p-6;
+    border-color: var(--stroke);
+  }
+  .card-bone {
+    background-color: var(--porcelain);
   }
 
-  .btn-outline {
-    @apply relative inline-flex items-center justify-center rounded-full border border-neon-blue/60 px-8 py-4 text-sm font-bold uppercase tracking-widest text-white transition-all duration-300;
+  /* Rule callouts (guide §) */
+  .callout {
+    @apply rounded-r-card p-5;
+    background: #eff6fe;
+    border-left: 4px solid var(--neon-blue);
+  }
+  .callout-warn {
+    background: #fdf0ef;
+    border-left-color: var(--club-red);
   }
 
-  .btn-outline:hover {
-    box-shadow: 0 0 12px #0066ff, 0 0 36px rgba(0, 102, 255, 0.5);
-    background: rgba(0, 102, 255, 0.08);
-    transform: translateY(-2px);
+  /* Form inputs — light, hairline, bullnose */
+  .field {
+    @apply w-full rounded-full border bg-white px-5 text-sm text-asphalt outline-none transition-colors duration-200 ease-digital;
+    height: 52px;
+    border-color: var(--stroke);
   }
-
-  .section-label {
-    @apply mb-3 inline-block text-xs font-bold uppercase tracking-[0.35em] text-white/50;
+  .field:focus {
+    border-color: var(--enamel-blue);
+    box-shadow: 0 0 0 3px rgba(11, 77, 162, 0.12);
+  }
+  .field::placeholder {
+    color: var(--steel);
   }
 }
 
@@ -74,35 +151,40 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-
-  /* Reveal-on-scroll base state */
+  /* tabular figures for prices and data */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+  /* scroll-reveal base state */
   .reveal {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(20px);
+    transition:
+      opacity 0.7s cubic-bezier(0, 0, 0.2, 1),
+      transform 0.7s cubic-bezier(0, 0, 0.2, 1);
   }
-
   .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Custom form input styling */
-input::placeholder {
-  color: rgba(248, 249, 250, 0.4);
+:focus-visible {
+  outline: 2px solid var(--neon-blue);
+  outline-offset: 3px;
 }
 
-/* Scrollbar */
+/* Scrollbar — restrained, chrome-on-porcelain */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: #121212;
+  background: var(--porcelain);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(#ff0033, #0066ff);
+  background: var(--chrome);
   border-radius: 10px;
+  border: 3px solid var(--porcelain);
 }
 
 @media (prefers-reduced-motion: reduce) {

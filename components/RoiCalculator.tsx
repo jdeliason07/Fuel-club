@@ -1,101 +1,125 @@
 "use client";
 
 import { useState } from "react";
-import { ROI_ROWS } from "@/lib/constants";
+import { VALUE } from "@/lib/constants";
 import Reveal from "./Reveal";
 
 /**
- * The $99 No-Brainer ROI Calculator.
- * Interactive breakdown showing membership fee offset by store credit +
- * free car wash, netting out to $0 for the concierge service.
+ * The value equation — canonical form (guide §06).
+ *   Membership  −  Value delivered  =  Your net
+ * Blue for what you pay, red for what you gain. Jost tabular for display
+ * prices. Line items itemized beneath. Auditable in four seconds.
  */
 export default function RoiCalculator() {
-  const [washesPerMonth, setWashesPerMonth] = useState(4);
-  const washValue = 15; // retail value of one touchless wash
-  const savedOnWashes = washesPerMonth * washValue;
+  // The one auditable variable: fill-ups per month drives the fuel line.
+  const [fillUps, setFillUps] = useState(5);
+  const perFillSaving = 2; // member fuel rate saving per fill-up
+
+  const credit = 99; // C-store credit
+  const wash = 18; // touchless wash value
+  const fuel = fillUps * perFillSaving; // full-service fuel delivery value
+  const delivered = credit + wash + fuel;
+  const net = delivered - VALUE.membership;
+
+  const money = (n: number) => `$${n}`;
 
   return (
-    <section id="roi" className="relative px-5 py-24 sm:px-8">
-      <div className="mx-auto max-w-5xl">
-        <Reveal className="text-center">
-          <span className="section-label">The $99 No-Brainer</span>
-          <h2 className="text-balance text-3xl font-black tracking-tight text-white sm:text-5xl">
-            The Math That Makes It{" "}
-            <span className="text-neon-blue">Free</span>.
+    <section id="value" className="px-5 py-16 sm:px-8 sm:py-24">
+      <div className="mx-auto max-w-[1060px]">
+        <Reveal>
+          <div className="eyebrow mb-3">06 — The Numbers</div>
+          <h2
+            className="font-display font-extrabold uppercase text-asphalt"
+            style={{ fontSize: "clamp(25px,4.6vw,42px)", letterSpacing: "0.03em" }}
+          >
+            Show the math.
+            <br />
+            Never claim the win.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-balance text-white/65">
-            Your membership pays for itself before you even count the car wash.
-            Here&apos;s the breakdown, line by line.
+          <p className="mt-3 max-w-[58ch] text-steel">
+            Skepticism is the buyer&apos;s default. The counter is not
+            adjectives — it is arithmetic you can audit in four seconds.
           </p>
         </Reveal>
 
-        <Reveal delay={100} className="mt-12">
-          <div className="glass-strong overflow-hidden rounded-3xl">
-            <div className="divide-y divide-white/10">
-              {ROI_ROWS.map((row) => (
-                <RoiLine key={row.label} {...row} />
-              ))}
+        <Reveal delay={100}>
+          <div className="card shadow-card mt-10 p-6 sm:p-9">
+            <div className="eyebrow mb-6">Value equation — canonical form</div>
 
-              {/* Interactive wash slider bonus */}
-              <div className="px-6 py-6 sm:px-8">
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-white">
-                      Car washes per month
-                    </p>
-                    <p className="text-xs text-white/50">
-                      Retail value ~${washValue} each — yours free.
-                    </p>
-                  </div>
-                  <div className="mt-3 flex items-center gap-4 sm:mt-0">
-                    <input
-                      type="range"
-                      min={0}
-                      max={12}
-                      value={washesPerMonth}
-                      onChange={(e) =>
-                        setWashesPerMonth(Number(e.target.value))
-                      }
-                      className="h-1.5 w-40 cursor-pointer appearance-none rounded-full bg-white/15 accent-neon-blue"
-                      aria-label="Car washes per month"
-                    />
-                    <span className="w-24 text-right text-sm font-bold text-neon-blue">
-                      +${savedOnWashes}
-                      <span className="text-white/40">/mo</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
+            {/* The equation */}
+            <div className="flex flex-wrap items-baseline gap-x-8 gap-y-5">
+              <EqTerm label="Membership" value={money(VALUE.membership)} tone="pay" />
+              <Operator symbol="−" />
+              <EqTerm label="Value delivered" value={money(delivered)} tone="blue" />
+              <Operator symbol="=" />
+              <EqTerm label="Your net" value={`+${money(net)}`} tone="gain" />
             </div>
 
-            {/* Net total */}
-            <div className="flex items-center justify-between bg-gradient-to-r from-neon-red/10 via-transparent to-neon-blue/10 px-6 py-7 sm:px-8">
+            <hr
+              className="my-8 border-0"
+              style={{ height: 1, background: "var(--stroke)" }}
+              aria-hidden="true"
+            />
+
+            {/* Itemized beneath */}
+            <div className="grid gap-x-12 gap-y-4 sm:grid-cols-2">
+              <LineItem
+                label="C-store credit"
+                detail="Coffee, snacks, energy — spent anyway"
+                value={money(credit)}
+              />
+              <LineItem
+                label="Unlimited touchless wash"
+                detail="Retail value, included"
+                value={money(wash)}
+              />
+              <LineItem
+                label="Full-service fuel delivery"
+                detail={`${fillUps} fill-ups · member rate`}
+                value={money(fuel)}
+              />
+              <LineItem
+                label="Membership fee"
+                detail="Billed monthly, no contract"
+                value={`−${money(VALUE.membership)}`}
+                pay
+              />
+            </div>
+
+            {/* One auditable control */}
+            <div
+              className="mt-8 flex flex-col gap-3 rounded-card p-5 sm:flex-row sm:items-center sm:justify-between"
+              style={{ background: "var(--porcelain)" }}
+            >
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/50">
-                  Net cost for concierge service
+                <p className="font-display text-sm font-semibold uppercase tracking-[0.06em] text-asphalt">
+                  Fill-ups per month
                 </p>
-                <p className="mt-1 text-3xl font-black text-white sm:text-4xl">
-                  $0
-                  <span className="ml-2 text-base font-semibold text-white/50">
-                    /month
-                  </span>
+                <p className="text-[13px] text-steel">
+                  Saves about ${perFillSaving}.00 each at the member rate.
                 </p>
               </div>
-              <div className="text-right">
-                <p className="text-xs font-medium text-white/50">
-                  Effective value
-                </p>
-                <p className="text-2xl font-black text-neon-blue sm:text-3xl">
-                  +${savedOnWashes}
-                </p>
-                <p className="text-xs text-white/40">in your pocket</p>
+              <div className="flex items-center gap-4">
+                <input
+                  type="range"
+                  min={0}
+                  max={12}
+                  value={fillUps}
+                  onChange={(e) => setFillUps(Number(e.target.value))}
+                  className="h-1.5 w-40 cursor-pointer appearance-none rounded-full"
+                  style={{ accentColor: "var(--enamel-blue)", background: "#EAF3FC" }}
+                  aria-label="Fill-ups per month"
+                />
+                <span className="w-12 text-right font-mono text-sm tabular-nums text-enamel-blue">
+                  {fillUps}
+                </span>
               </div>
             </div>
           </div>
 
-          <p className="mt-4 text-center text-xs text-white/40">
-            You spend $99 and get $99 back in credits you&apos;d spend on coffee
-            &amp; snacks anyway — concierge fueling and the car wash come free.
+          <p className="mt-4 text-[13px] text-steel">
+            Every figure sourced and dated in production. Figures shown are
+            formatting examples, not verified claims.
           </p>
         </Reveal>
       </div>
@@ -103,46 +127,75 @@ export default function RoiCalculator() {
   );
 }
 
-function RoiLine({
+function EqTerm({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: string;
+  tone: "pay" | "blue" | "gain";
+}) {
+  const color =
+    tone === "blue"
+      ? "var(--enamel-blue)"
+      : tone === "gain"
+      ? "var(--club-red)"
+      : "var(--asphalt)";
+  return (
+    <div>
+      <div className="mb-1 text-[13px] text-steel">{label}</div>
+      <div
+        className="font-display font-extrabold tabular-nums"
+        style={{
+          fontSize: "clamp(40px,8vw,72px)",
+          lineHeight: 1,
+          letterSpacing: "-0.005em",
+          color,
+        }}
+      >
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function Operator({ symbol }: { symbol: string }) {
+  return (
+    <div
+      className="font-display font-bold text-chrome"
+      style={{ fontSize: "clamp(28px,4vw,40px)", lineHeight: 1 }}
+      aria-hidden="true"
+    >
+      {symbol}
+    </div>
+  );
+}
+
+function LineItem({
   label,
   detail,
-  amount,
-  kind,
-}: (typeof ROI_ROWS)[number]) {
-  const display =
-    kind === "bonus"
-      ? "FREE"
-      : `${amount < 0 ? "-" : "+"}$${Math.abs(amount)}`;
-  const color =
-    kind === "charge"
-      ? "text-white"
-      : kind === "credit"
-      ? "text-neon-red"
-      : "text-neon-blue";
-
+  value,
+  pay = false,
+}: {
+  label: string;
+  detail: string;
+  value: string;
+  pay?: boolean;
+}) {
   return (
-    <div className="flex items-center justify-between px-6 py-5 transition-colors hover:bg-white/[0.03] sm:px-8">
-      <div className="flex items-center gap-4">
-        <span
-          className={`flex h-9 w-9 items-center justify-center rounded-full text-lg font-black ${
-            kind === "charge"
-              ? "bg-white/10 text-white"
-              : kind === "credit"
-              ? "bg-neon-red/15 text-neon-red"
-              : "bg-neon-blue/15 text-neon-blue"
-          }`}
-        >
-          {kind === "charge" ? "$" : kind === "credit" ? "−" : "★"}
-        </span>
-        <div>
-          <p className="text-sm font-semibold text-white sm:text-base">
-            {label}
-          </p>
-          <p className="text-xs text-white/50">{detail}</p>
-        </div>
+    <div className="flex items-baseline justify-between gap-4 border-b border-stroke pb-3">
+      <div>
+        <p className="font-display text-sm font-semibold uppercase tracking-[0.05em] text-asphalt">
+          {label}
+        </p>
+        <p className="text-[12.5px] text-steel">{detail}</p>
       </div>
-      <span className={`text-base font-bold tabular-nums sm:text-lg ${color}`}>
-        {display}
+      <span
+        className="font-mono text-sm tabular-nums"
+        style={{ color: pay ? "var(--asphalt)" : "var(--enamel-blue)" }}
+      >
+        {value}
       </span>
     </div>
   );
